@@ -1,0 +1,15 @@
+.component {
+    text-align: center;
+}
+
+.value {
+    font-size: 2rem;
+}
+
+.card-title {
+    font-style: medium italic;
+}
+
+.date {
+    color: #90a4ae;
+}
