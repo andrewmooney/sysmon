@@ -1,5 +1,6 @@
 const app = require('express')();
 const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 const Perf = require('./models/perf');
 const Client = require('./models/client');
@@ -58,5 +59,14 @@ app.post('/api/register', (req, res) => {
 		res.status(200).send("New client added");	
 	});
 });
+
+io.on('connection', (socket) => {
+	console.log("Client connected");
+	socket.on('clientpd', (pd) => {
+		console.log(pd);
+	});
+});
+
+
 
 http.listen(port, () => console.log(`Listening on port ${port}`));
