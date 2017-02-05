@@ -1,9 +1,9 @@
-const express = require('express');
+const app = require('express')();
+const http = require('http').Server(app);
 const mongoose = require('mongoose');
 const Perf = require('./models/perf');
 const Client = require('./models/client');
 const bodyParser = require('body-parser');
-const app = express();
 
 const port = 80;
 
@@ -59,4 +59,4 @@ app.post('/api/register', (req, res) => {
 	});
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+http.listen(port, () => console.log(`Listening on port ${port}`));
