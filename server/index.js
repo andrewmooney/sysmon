@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
 	socket.on('clientpd', (pd) => {
 		console.log(pd);
 		io.emit('clientdata', pd);
-		perfdata = new Perf(pd);
+		perfdata = new Perf(JSON.parse(pd));
 		pefdata.save( (err) => {
 			if (err) {
 				console.log(err);
