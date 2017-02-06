@@ -60,9 +60,9 @@
         socket.on('clientdata', function(cd) {
             var data = jQuery.parseJSON(cd);
             console.log(data);
-            $('#' + data.hostname).find('.cpu').text(data.cpu_perc);
-            $('#' + data.hotname).find('.vmem').text(data.vmem_perc);
-            $('#' + data.hotname).find('.smem').text(data.smem_perc);
+            $('#ms402-1274.eait.uq.edu.au').find('.cpu').text(data.cpu_perc);
+            $('#ms402-1274.eait.uq.edu.au').find('.vmem').text(data.vmem_perc);
+            $('#ms402-1274.eait.uq.edu.au').find('.smem').text(data.smem_perc);
         });
     </script>
 </body>
