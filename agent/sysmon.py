@@ -35,7 +35,5 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
             file = open("./logs/plog.log", "a+")
             file.write(data)
             file.close()
-            post = requests.post("http://elipsemon.uqcloud.net/api", headers = {u'content-type': u'application/json'}, data=data)
-            print(post.text)
         socketIO.emit('clientpd', data)
         socketIO.wait(seconds=1)
