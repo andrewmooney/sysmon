@@ -1,41 +1,43 @@
-        <h2>Most recent</h2>
-        <div class="row">
+<h2>Most recent</h2>
+<div class="row">
 
-            {{#each client}}
-                <div class="col s4">
-                    <div class="card hoverable">
-                        <div id="{{name}}" class="card-content">
-                            <span class="card-title">{{name}}</span>
-                            <span class="date">Date 03-02-2017 at 02:00</span>
-                            <div class="row">
-                                <section class="col s4 component">
-                                    <section class="cpu value">
-                                        99
-                                    </section>
-                                    <section class="cname">
-                                        CPU (%)
-                                    </section>
-                                </section>
-                                <section class="col s4 component">
-                                    <section class="vmem value">
-                                        80
-                                    </section>
-                                    <section class="cname">
-                                        Memory (%)
-                                    </section>
-                                </section>
-                                <section class="col s4 component">
-                                    <section class="smem value">
-                                        0
-                                    </section>
-                                    <section class="cname">
-                                        Swap (%)
-                                    </section>
-                                </section>
-                            </div>
-                            <div class="card-action">
-                                <a href="#">History</a>
-                            </div>
-                        </div>
-                    {{/each}}
+    {{#each client}}
+    <div class="col s4">
+        <div class="card hoverable">
+            <div id="{{name}}" class="card-content">
+                <span class="card-title">{{name}}</span>
+                <span class="date">Date 03-02-2017 at 02:00</span>
+                <div class="row">
+                    <section class="col s4 component">
+                        <section class="cpu value">
+                            99
+                        </section>
+                        <section class="cname">
+                            CPU (%)
+                        </section>
+                    </section>
+                    <section class="col s4 component">
+                        <section class="vmem value">
+                            80
+                        </section>
+                        <section class="cname">
+                            Memory (%)
+                        </section>
+                    </section>
+                    <section class="col s4 component">
+                        <section class="smem value">
+                            0
+                        </section>
+                        <section class="cname">
+                            Swap (%)
+                        </section>
+                    </section>
                 </div>
+                <div class="card-action">
+                    <a href="#">History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
