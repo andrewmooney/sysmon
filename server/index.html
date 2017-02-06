@@ -58,9 +58,10 @@
     <script>
         var socket = io();
         socket.on('clientdata', function(cd) {
-            console.log(cd);
-            $('#client001').find('cpu', function(){
-                $(this).text(cd.cpu_perc);
+            var data = jQuery.parseJSON(cd);
+            console.log(data);
+            $('#client001').find('.cpu', function(){
+                $(this).text(data.cpu_perc);
             });
         });
     </script>
