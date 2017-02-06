@@ -20,7 +20,7 @@ Client.find((err, clients) => {
 	app.set('clients', clients);	
 });
 
-
+app.use('/static', express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
