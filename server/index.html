@@ -60,9 +60,7 @@
         socket.on('clientdata', function(cd) {
             var data = jQuery.parseJSON(cd);
             console.log(data);
-            $('#client001').find('.cpu', function(){
-                $(this).text(data.cpu_perc);
-            });
+            $('#client001').find('.cpu').text(data.cpu_perc);
         });
     </script>
 </body>
