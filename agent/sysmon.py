@@ -3,6 +3,8 @@ import json
 import socket
 import psutil
 import requests
+from socketIO_client import SocketIO, LoggingNamespace
+
 
 hostname = socket.gethostname()
 def getPerf():
@@ -23,13 +25,17 @@ def getPerf():
 
     return {'timestamp':localTime, 'cpu_perc':cpuPercent, 'vmem_perc':vMem.percent, 'smem_perc':sMem.percent}
 
-while (True):
-    perf = getPerf()
-    if (perf['cpu_perc'] > 50 ) or (perf['vmem_perc'] > 90 ) or (perf['smem_perc'] > 10):
-        file = open("./logs/plog.log", "a+")
+with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
+
+    while (True):
+        perf = getPerf()
         perf['hostname'] = hostname;
         data = json.dumps(perf)
-        file.write(data)
-        file.close()
-        post = requests.post("http://elipsemon.uqcloud.net/api", headers = {u'content-type': u'application/json'}, data=data)
-        print(post.text)
+        if (perf['cpu_perc'] > 50 ) or (perf['vmem_perc'] > 90 ) or (perf['smem_perc'] > 10):
+            file = open("./logs/plog.log", "a+")
+            file.write(data)
+            file.close()
+            post = requests.post("http://elipsemon.uqcloud.net/api", headers = {u'content-type': u'application/json'}, data=data)
+            print(post.text)
+        socketIO.emit('clientpd', data)
+        socketIO.wait(seconds=1)
