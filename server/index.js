@@ -38,12 +38,12 @@ app.get('/', (req, res) => {
 // 	});
 // });
 
-// app.get('/api/:client', (req, res) => {
-// 	Perf.find({'hostname': req.params.client}, (err, perfData) => {
-// 		if (err) return res.send(err);
-// 		return res.json(perfData);
-// 	}).limit(3);
-// }) ;
+app.get('/api/:client', (req, res) => {
+	Perf.find({'name': req.params.client}, (err, perfData) => {
+		if (err) return res.send(err);
+		return res.json(perfData);
+	}).limit(3);
+}) ;
 
 // app.post('/api', (req, res) => {
 // 	perfdata = new Perf(req.body);
