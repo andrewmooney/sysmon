@@ -68,6 +68,7 @@ io.on('connection', (socket) => {
 	console.log("Client connected");
 	socket.on('clientpd', (pd) => {
 		console.log(pd);
+		io.emit('clientdata', pd);
 	});
 });
 
