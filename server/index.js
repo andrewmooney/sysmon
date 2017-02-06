@@ -74,8 +74,8 @@ io.on('connection', (socket) => {
 	socket.on('clientpd', (pd) => {
 		console.log(pd);
 		io.emit('clientdata', pd);
-		pd.name = pd.hostname.split('.')[0];
 		perfdata = new Perf(JSON.parse(pd));
+		perfdata.name = perfdata.hostname.split('.')[0];
 		perfdata.save( (err) => {
 			if (err) {
 				console.log(err);
