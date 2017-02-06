@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const perfSchema = new Schema({
 	hostname: String, 
+	name: String,
 	timestamp: Number,
 	cpu_perc: Number,
 	vmem_perc: Number,
