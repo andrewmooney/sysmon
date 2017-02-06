@@ -61,9 +61,10 @@
             var data = jQuery.parseJSON(cd);
             console.log(data);
             data.hostname = data.hostname.split('.')[0]
-            $('#' + data.hostname).find('.cpu').text(data.cpu_perc);
-            $('#' + data.hotname).find('.vmem').text(data.vmem_perc);
-            $('#' + data.hotname).find('.smem').text(data.smem_perc);
+            var client = $('#' + data.hostname);
+            client.find('.cpu').text(data.cpu_perc);
+            client.find('.vmem').text(data.vmem_perc);
+            client.find('.smem').text(data.smem_perc);
         });
     </script>
 </body>
