@@ -61,6 +61,8 @@
             var data = jQuery.parseJSON(cd);
             console.log(data);
             $('#client001').find('.cpu').text(data.cpu_perc);
+            $('#client001').find('.vmem').text(data.cpu_perc);
+            $('#client001').find('.smem').text(data.cpu_perc);
         });
     </script>
 </body>
