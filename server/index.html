@@ -58,7 +58,8 @@
     <script>
         var socket = io();
         socket.on('clientdata', function(cd) {
-            var client = $('#client001').find('cpu', function(){
+            console.log(cd);
+            $('#client001').find('cpu', function(){
                 $(this).text(cd.cpu_perc);
             });
         });
