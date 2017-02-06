@@ -1,0 +1,36 @@
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="./css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" href="./css/styles.css" media="screen">
+</head>
+
+<body>
+
+    <div class="container">
+        {{body}}
+    </div>
+
+    <script type="text/javascript" src="./js/materialize.min.js"></script>
+
+    <script>
+        var socket = io();
+        socket.on('clientdata', function(cd) {
+            var data = jQuery.parseJSON(cd);
+            console.log(data);
+            data.hostname = data.hostname.split('.')[0]
+            var client = $('#' + data.hostname);
+            client.find('.cpu').text(data.cpu_perc);
+            client.find('.vmem').text(data.vmem_perc);
+            client.find('.smem').text(data.smem_perc);
+        });
+    </script>
+</body>
+
+</html>
