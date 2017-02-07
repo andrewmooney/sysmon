@@ -72,7 +72,7 @@ app.post('/api/register', (req, res) => {
 io.on('connection', (socket) => {
 	console.log("Client connected");
 	socket.on('clientpd', (pd) => {
-		console.log(pd);
+		// console.log(pd);
 		io.emit('clientdata', pd);
 		perfdata = new Perf(JSON.parse(pd));
 		perfdata.name = perfdata.hostname.split('.')[0];
