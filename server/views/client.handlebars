@@ -2,6 +2,12 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script>
+    Chart.defaults.global = {
+        animation: true,
+        animationSteps: 60,
+        animationEasing: "easeOutQuart"
+    }
+
     var jsonData = $.ajax({
         url: '/api/help-tst',
         dataType: 'json'
@@ -27,7 +33,8 @@
         var ctx = $('#chart');
         var perfChart = new Chart(ctx, {
             type: "line",
-            data: chartData
+            data: chartData,
+            bezierCurve: false
         });
     });
 </script>
