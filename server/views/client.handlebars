@@ -7,7 +7,7 @@
         dataType: 'json'
     }).done(function (results) {
         var labels = [], data = [];
-        result.forEach(function(perf) {
+        results.forEach(function(perf) {
             labels.push(new Date(perf.timestamp));
             data.push(parseFloat(perf.cpu_perc));
         });
