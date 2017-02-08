@@ -16,7 +16,7 @@
 
 .chart_wrapper {
     position: relative;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 .chart_wrapper > canvas {
