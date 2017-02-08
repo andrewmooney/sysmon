@@ -68,17 +68,20 @@
             },
             bezierCurve: true
         });
+
+        function addData(val){
+            perfChart.chartData.datasets[0].data.push(val);
+            perfChart.data.labels.push('Time');
+            perfChart.update();
+        }
+
+        while (true) {
+            addData(Math.floor(Math.random() * (100 - 10)) + 10)
+        }
     });
 
-    function addData(val){
-        perfChart.chartData.datasets[0].data.push(val);
-        perfChart.data.labels.push('Time');
-        perfChart.update();
-    }
+    
 
-    while (true) {
-        addData(Math.floor(Math.random() * (100 - 10)) + 10)
-    }
 
 </script>
 {{!--{{#each perfData}}
