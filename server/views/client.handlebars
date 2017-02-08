@@ -7,22 +7,45 @@
         url: '/api/help-tst',
         dataType: 'json'
     }).done(function (results) {
-        var labels = [], data = [];
+        var labels = [], cpuData = [], vmemData = [], smemData = [];
         results.forEach(function(perf) {
             labels.push(new Date(perf.timestamp));
-            data.push(parseFloat(perf.cpu_perc));
+            cpuData.push(parseFloat(perf.cpu_perc));
+            vmemData.push(parseFloat(perf.vmem_perc));
+            smemData.push(parseFloat(perf.smem_perc));
         });
 
         var chartData = {
             labels : labels,
             datasets : [{
+                label                 : "CPU(%)",
                 fillColor             : "rgba(151,187,205,0.2)",
                 strokeColor           : "rgba(151,187,205,1)",
                 pointColor            : "rgba(151,187,205,1)",
                 pointStrokeColor      : "#fff",
                 pointHighlightFill    : "#fff",
                 pointHighlightStroke  : "rgba(151,187,205,1)",
-                data                  : data
+                data                  : cpuData
+            },
+            {
+                label                 : "vMEM(%)",
+                fillColor             : "rgba(151,187,205,0.2)",
+                strokeColor           : "rgba(151,187,205,1)",
+                pointColor            : "rgba(151,187,205,1)",
+                pointStrokeColor      : "#fff",
+                pointHighlightFill    : "#fff",
+                pointHighlightStroke  : "rgba(151,187,205,1)",
+                data                  : vmemData
+            },
+            {
+                label                 : "sMEM(%)",
+                fillColor             : "rgba(151,187,205,0.2)",
+                strokeColor           : "rgba(151,187,205,1)",
+                pointColor            : "rgba(151,187,205,1)",
+                pointStrokeColor      : "#fff",
+                pointHighlightFill    : "#fff",
+                pointHighlightStroke  : "rgba(151,187,205,1)",
+                data                  : smemData
             }]
         };
         var ctx = $('#chart');
