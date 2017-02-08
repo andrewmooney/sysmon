@@ -16,8 +16,6 @@
 
 .chart_wrapper {
     position: relative;
-    width:900px;
-    overflow-x: scroll;
 }
 
 .chart_wrapper > canvas {
@@ -28,5 +26,6 @@
 }
 
 .chart_area_wrapper {
-    width: 432000px;
+    width: 15000px;
+    overflow-x: scroll;
 }
