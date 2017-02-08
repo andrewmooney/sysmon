@@ -16,6 +16,7 @@
 
 .chart_wrapper {
     position: relative;
+    width:600px;
 }
 
 .chart_wrapper > canvas {
