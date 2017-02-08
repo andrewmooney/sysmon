@@ -13,3 +13,19 @@
 .date {
     color: #90a4ae;
 }
+
+.chart_wrapper {
+    position: relative;
+}
+
+.chart_wrapper > canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+}
+
+.chart_area_wrapper {
+    width: 15000px;
+    overflow-x: scroll;
+}
