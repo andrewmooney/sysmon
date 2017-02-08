@@ -42,7 +42,7 @@ app.get('/:client', (req, res) => {
 	Perf.find({'name': req.params.client}, (err, perfData) => {
 		if (err) return res.send({'message' : err});
 		return res.render('client', {'perfData' : perfData});
-	});
+	}).sort({timestamp: -1});
 });
 
 app.get('/api/:client', (req, res) => {
