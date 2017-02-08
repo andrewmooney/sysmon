@@ -68,19 +68,19 @@
             },
             bezierCurve: true
         });
+    }).done(function(){
 
         function addData(val){
-            perfChart.data.datasets[0].data.push(val);
+            perfChart.chartData.datasets[0].data.push(val);
             perfChart.data.labels.push('Time');
             perfChart.update();
         }
 
         while (true) {
-            addData(Math.floor(Math.random() * (100 - 10)) + 10)
+            addData(Math.floor(Math.random() * (100 - 10)) + 10);
         }
-    });
 
-    
+    });
 
 
 </script>
