@@ -2,13 +2,12 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script>
-
     var jsonData = $.ajax({
         url: '/api/help-tst',
         dataType: 'json'
     }).done(function (results) {
         var labels = [], cpuData = [], vmemData = [], smemData = [];
-        results.forEach(function(perf) {
+        results.forEach(function (perf) {
             labels.push(new Date(perf.timestamp));
             cpuData.push(parseFloat(perf.cpu_perc));
             vmemData.push(parseFloat(perf.vmem_perc));
@@ -16,45 +15,57 @@
         });
 
         var chartData = {
-            labels : labels,
-            datasets : [{
-                label                 : "CPU(%)",
-                fillColor             : "rgba(151,187,205,0.2)",
-                strokeColor           : "rgba(151,187,205,1)",
-                pointColor            : "rgba(151,187,205,1)",
-                pointStrokeColor      : "#fff",
-                pointHighlightFill    : "#fff",
-                pointHighlightStroke  : "rgba(151,187,205,1)",
-                data                  : cpuData
+            labels: labels,
+            datasets: [{
+                label: "CPU(%)",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: cpuData
             },
             {
-                label                 : "vMEM(%)",
-                fillColor             : "rgba(151,187,205,0.2)",
-                strokeColor           : "rgba(151,187,205,1)",
-                pointColor            : "rgba(151,187,205,1)",
-                pointStrokeColor      : "#fff",
-                pointHighlightFill    : "#fff",
-                pointHighlightStroke  : "rgba(151,187,205,1)",
-                data                  : vmemData
+                label: "vMEM(%)",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: vmemData
             },
             {
-                label                 : "sMEM(%)",
-                fillColor             : "rgba(151,187,205,0.2)",
-                strokeColor           : "rgba(151,187,205,1)",
-                pointColor            : "rgba(151,187,205,1)",
-                pointStrokeColor      : "#fff",
-                pointHighlightFill    : "#fff",
-                pointHighlightStroke  : "rgba(151,187,205,1)",
-                data                  : smemData
+                label: "sMEM(%)",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: smemData
             }]
         };
         var ctx = $('#chart');
         var perfChart = new Chart(ctx, {
             type: "line",
             data: chartData,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            max: 100,
+                            min: 0,
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
             bezierCurve: false
         });
     });
+
 </script>
 {{!--{{#each perfData}}
 <div>
