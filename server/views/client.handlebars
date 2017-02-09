@@ -1,8 +1,50 @@
+<svg width="960" height="500"></svg>
 
 <script>
-    d3.json('/api/help-tst', function(data) {
-        console.log(data)
+    // Select render element
+    var svg = d3.select('svg'),
+        margin = {top: 20, right: 80, bottom: 30, left: 50},
+        width = svg.attr('width') - margin.left - margin.right,
+        height = svg.attr('height') - margin.top - margin.bottom,
+        g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    var parseTime = d3.timeParse('%Y%m%d');
+
+    var x = d3.scaleTime().range([0, width]),
+        y = d3.scaleLinear().range([height, 0]),
+        z = d3.scaleOrdinal(d3.schemeCategory10);
+
+    var line = d3.line()
+        .curve(d3.curveBasis)
+        .x(function(d) { return x(d.date); });
+        .y(function(d) { return y(d.temperature); });
+
+// _id
+// cpu_perc
+// hostname
+// name
+// smem_perc
+// timestamp
+// vmem_perc
+
+    // Getting data from api
+    d3.json('/api/help-tst', function(error, data) {
+        if (error) throw error;
+
+        var perf = data.columns.slice(1).map(function(id) {
+            return {
+                id: id,
+                values: data.map(function(d) {
+                    return {time: d.timestamp, CPU: d.cpu_perc, vMEM: d.vmem_perc, sMEM: d.smem_perc};
+                })
+            };
+        });
+
+        console.log(perf);
+
     });
+
+
 
     /*var labels = [], cpuData = [], vmemData = [], smemData = [];
     results.forEach(function (perf) {
