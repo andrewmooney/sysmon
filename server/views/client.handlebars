@@ -55,7 +55,7 @@
 
         var timestamps = data.map( function(x) { return x.x2 });
         var x = d3.scaleLinear()
-            .domain([0, d3.max(timestamps)])
+            .domain([d3.min(timestamps), d3.max(timestamps)])
             .rangeRound([0, width]);
 
         var y = d3.scaleLinear()
