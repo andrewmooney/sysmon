@@ -1,13 +1,7 @@
 
 <script>
-    var jsonData = $.ajax({
-        url: '/api/help-tst',
-        dataType: 'json'
-    }).done(function (results) {
-        d3.json(results, function(data) {
-            console.log(data[0]);
-        });
-        return results;
+    d3.json('/api/help-tst', function(data) {
+        console.log(data)
     });
 
     /*var labels = [], cpuData = [], vmemData = [], smemData = [];
