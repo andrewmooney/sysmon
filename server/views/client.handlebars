@@ -17,7 +17,7 @@
     var line = d3.line()
         .curve(d3.curveBasis)
         .x(function(d) { return x(d.date); })
-        .y(function(d) { return y(d.temperature); });
+        .y(function(d) { return y(d.percent); });
 
 // _id
 // cpu_perc
@@ -30,19 +30,69 @@
     // Getting data from api
     d3.json('/api/help-tst', function(error, data) {
         if (error) throw error;
-        console.log(data);
-        var perf = data.columns.slice(1).map(function(id) {
+
+        var comps = data.map(function(id) {
             return {
                 id: id,
-                values: data.map(function(d) {
-                    return {time: d.timestamp, CPU: d.cpu_perc, vMEM: d.vmem_perc, sMEM: d.smem_perc};
+                values: data.map( function(d) {
+                    return {date: d.timestamp, percent: d[id]};
                 })
             };
         });
 
-        console.log(perf);
+        x.domain(d3.extent(data, function(d) {
+            return new Date(d.timestamp);
+        }));
 
+        y.domain([
+            d3.min(comps, function(c) { return d3.min(c.values, function(d) { return 0 })});
+            d3.max(comps, function(c) { return d3.max(c.values, function(d) { return 100 })});
+        ]);
+
+        z.domain(comps.map(function(c) { return c.id; }));
+
+        g.append('g')
+            .attr('class', 'axis axis--x')
+            .attr('tranform', 'translate(0' + height + ')')
+            .call(d3.axisBottom(x));
+
+        g.append('g')
+            .attr('class', 'axis axis--y')
+            .call(d3.axisLeft(y))
+         .append('text')
+            .attr('transform', 'rotate(-90)')
+            .attr('y' 6)
+            .attr('dy', '0.71em')
+            .attr('fill', '#000')
+            .text('Percent %');
+
+        var comp = g.selectAll('.comp')
+            .data(comps)
+            .enter().append('g')
+                .attr('class', 'comp');
+
+        comp.append('path')
+            .attr('class', 'line')
+            .attr('d', function(d) { return line(d.values); })
+            .style('stroke', function(d) { return z(d.id); })
+
+        comp.append('text')
+            .datum(function(d) { return { id: d.id, value: d.values[d.values.length -1]}l })
+            .attr('transform', function(d) { return 'translate(' + x(d.value.date) + ',' + y(d.value.percent)})
+            .attr('x', 3)
+            .attr('dy', '0.35em')
+            .style('font', '10px sans-serif')
+            .text(function(d) { return d.id});
     });
+
+    function type(d, _, columns) {
+        d.date = parseTime(d.date);
+        for (var i = 1, n = columns.length, c; i < n; ++1) {
+            d[c = columns[i]] = +d[c];
+        }
+
+        return d;
+    }
 
 
 
