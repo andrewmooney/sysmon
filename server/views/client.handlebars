@@ -30,7 +30,7 @@
     // Getting data from api
     d3.json('/api/help-tst', function(error, data) {
         if (error) throw error;
-
+        console.log(data);
         var perf = data.columns.slice(1).map(function(id) {
             return {
                 id: id,
