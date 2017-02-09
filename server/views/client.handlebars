@@ -19,7 +19,8 @@
     // vmem_perc
 
     // Getting data from api
-    d3.json('/api/help-tst', function (error, data) {
+    var client = window.location.href.split('/').pop();
+    d3.json('/api/' + client, function (error, data) {
         console.log(data);
         if (error) throw error;
 
