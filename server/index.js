@@ -49,7 +49,7 @@ app.get('/api/:client', (req, res) => {
 	Perf.find({'name': req.params.client}, (err, perfData) => {
 		if (err) return res.send({'message' : err});
 		return res.json(perfData);
-	}).limit(200);
+	}).limit();
 }) ;
 
 // app.post('/api', (req, res) => {
