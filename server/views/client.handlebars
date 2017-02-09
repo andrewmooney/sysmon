@@ -1,81 +1,20 @@
-<section class="chart_wrapper">
-    <section class="chart_area_wrapper">
-        <canvas id="chart" width="15000" height="600"></canvas>
-    </section>
-</section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <script>
     var jsonData = $.ajax({
         url: '/api/help-tst',
         dataType: 'json'
     }).done(function (results) {
-        var labels = [], cpuData = [], vmemData = [], smemData = [];
-        results.forEach(function (perf) {
-            labels.push(new Date(perf.timestamp));
-            cpuData.push(parseFloat(perf.cpu_perc));
-            vmemData.push(parseFloat(perf.vmem_perc));
-            smemData.push(parseFloat(perf.smem_perc));
+        d3.json(results, function(data) {
+            console.log(data[0]);
         });
-
-        var chartData = {
-            labels: labels,
-            datasets: [{
-                label: "CPU(%)",
-                backgroundColor: "rgba(255,45,26,0.2)",
-                borderColor: "rgba(255,45,26,1)",
-                pointBackgroundColor: "rgba(255,45,26,1)",
-                pointBorderColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(255,45,26,1)",
-                data: cpuData
-            },
-            {
-                label: "vMEM(%)",
-                backgroundColor: "rgba(255,121,0,0.2)",
-                borderColor: "rgba(255,121,0,1)",
-                pointBackgroundColor: "rgba(255,121,0,1)",
-                pointBorderColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(255,121,0,1)",
-                data: vmemData
-            },
-            {
-                label: "sMEM(%)",
-                backgroundColor: "rgba(14,193,167,0.2)",
-                borderColor: "rgba(14,193,167,1)",
-                pointBackgroundColor: "rgba(14,193,0,1)",
-                pointBorderColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(14,193,0,1)",
-                data: smemData
-            }]
-        };
-        var ctx = $('#chart');
-        var perfChart = new Chart(ctx, {
-            type: "line",
-            data: chartData,
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            max: 100,
-                            min: 0,
-                            stepSize: 10
-                        }
-                    }]
-                }
-            },
-            bezierCurve: true
-        });
+        return results;
     });
 
+    /*var labels = [], cpuData = [], vmemData = [], smemData = [];
+    results.forEach(function (perf) {
+        labels.push(new Date(perf.timestamp));
+        cpuData.push(parseFloat(perf.cpu_perc));
+        vmemData.push(parseFloat(perf.vmem_perc));
+        smemData.push(parseFloat(perf.smem_perc));
+    });*/
 </script>
-{{!--{{#each perfData}}
-<div>
-    {{timestamp}}<br /> {{cpu_perc}}
-    <br /> {{vmem_perc}}
-    <br /> {{smem_perc}}
-    <br />
-</div>
-{{/each}}--}}
