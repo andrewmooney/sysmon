@@ -77,7 +77,7 @@
             .style('stroke', function(d) { return z(d.id); })
 
         comp.append('text')
-            .datum(function(d) { return { id: d.id, value: d.values[d.values.length -1]}l })
+            .datum(function(d) { return { id: d.id, value: d.values[d.values.length -1]}; })
             .attr('transform', function(d) { return 'translate(' + x(d.value.date) + ',' + y(d.value.percent)})
             .attr('x', 3)
             .attr('dy', '0.35em')
