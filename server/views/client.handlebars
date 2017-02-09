@@ -31,9 +31,9 @@
         });
         var color = d3.scaleOrdinal().range(d3.schemeCategory10);
 
-        ['cpu_perc', 'vmem_perc', 'smem_perc'].forEach(function(item) {
+        ['cpu_perc', 'vmem_perc', 'smem_perc'].forEach(function (item) {
             var prev;
-            drawLine(svg, color(item), data.map( function(x) {
+            drawLine(svg, color(item), data.map(function (x) {
                 var curr = {
                     x1: prev == undefined ? 0 : prev.timestamp,
                     x2: x.timestamp,
@@ -53,7 +53,7 @@
             height = svg.attr('height') - margin.top - margin.bottom,
             g = svg.append('g').classed("lines", true).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-        var timestamps = data.map( function(x) { return x.x2 });
+        var timestamps = data.map(function (x) { return x.x2 });
         var x = d3.scaleLinear()
             .domain([d3.min(timestamps), d3.max(timestamps)])
             .rangeRound([0, width]);
@@ -79,6 +79,22 @@
             .on("mouseover", function (d) {
                 console.log(d);
             });
+
+        g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+            .select(".domain")
+            .remove();
+
+        g.append("g")
+            .call(d3.axisLeft(y))
+            .append("text")
+            .attr("fill", "#000")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "0.71em")
+            .attr("text-anchor", "end")
+            .text("Percent (%)");
 
     }
 
