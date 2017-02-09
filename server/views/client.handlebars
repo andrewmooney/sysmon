@@ -31,7 +31,7 @@
     d3.json('/api/help-tst', function(error, data) {
         if (error) throw error;
 
-        var comps = data.splice().map(function(id) {
+        var comps = data.splice(1).map(function(id) {
             return {
                 id: id,
                 values: data.map( function(d) {
