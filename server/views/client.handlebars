@@ -33,14 +33,14 @@
 
         var comps = data.map(function(id) {
             return {
-                id: id,
+                id: ,
                 values: data.map( function(d) {
                     return {date: d.timestamp, percent: d[id]};
                 })
             };
         });
 
-        console.log('COMPS ', comps)
+        console.log('COMPS ', comps.splice())
 
         x.domain(d3.extent(data, function(d) {
             return new Date(d.timestamp);
