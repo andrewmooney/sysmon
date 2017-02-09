@@ -53,7 +53,7 @@
             height = svg.attr('height') - margin.top - margin.bottom,
             g = svg.append('g').classed("lines", true).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-        var timestamps = data.map( fucntion(x) { return x.x2 });
+        var timestamps = data.map( function(x) { return x.x2 });
         var x = d3.scaleLinear()
             .domain([0, d3.max(timestamps)])
             .rangeRound([0, width]);
