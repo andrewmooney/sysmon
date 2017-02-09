@@ -27,7 +27,7 @@
         var parseTime = d3.timeParse('%Y%m%d');
 
         var cpu = data.map(function (d) {
-            return { x: d.timestamp, y: d.cpu_perc }
+            return { x: new Date(d.timestamp), y: d.cpu_perc }
         });
         var color = d3.scaleOrdinal().range(d3.schemeCategory10);
 
