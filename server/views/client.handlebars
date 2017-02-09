@@ -1,3 +1,8 @@
+<style>
+	.lines {
+		stroke-width: 2px;
+	}
+</style>
 <svg width="960" height="500"></svg>
 
 <script>
@@ -15,6 +20,7 @@
 
     // Getting data from api
     d3.json('/api/help-tst', function(error, data) {
+	console.log(data);
         if (error) throw error;
 
         var svg = d3.select('svg');
@@ -23,30 +29,57 @@
         var cpu = data.map(function(d) {
             return {x: d.timestamp, y: d.cpu_perc}
         });
-
-        drawLine(svg, cpu);
+	var color = d3.scaleOrdinal().range(d3.schemeCategory10);
+        
+	['cpu_perc', 'vmem_perc', 'smem_perc'].forEach(d => {
+		var prev;
+            drawLine(svg, color(d), data.map(x => {
+                var rrr = {
+                    x1: prev == undefined ? 0 : prev.timestamp,
+		    x2: x.timestamp,
+                    y1: prev == undefined ? 0 : prev[d],
+                    y2: x[d],
+                    original: x
+                }
+               prev = x;
+		return rrr;
+            }));
+       });
     });
 
-    function drawLine(svg, data) {
+    function drawLine(svg, color, data) {
         var margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = svg.attr('width') - margin.left - margin.right,
         height = svg.attr('height') - margin.top - margin.bottom,
-        g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        g = svg.append('g').classed("lines", true).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-        var x = d3.scaleTime()
+	var timestamps = data.map(x => x.x2);
+        var x = d3.scaleLinear()
+		.domain([d3.min(timestamps), d3.max(timestamps)])
             .rangeRound([0, width]);
 
         var y = d3.scaleLinear()
+		.domain([0, 100])
             .rangeRound([height, 0]);
 
-        var line = d3.line()
+        /*var line = d3.line()
             .x(function(d) { return x(d.x) })
-            .y(function(d) { return y(d.y) }) 
-        
-        g.append('path')
-            .classed('lines', true)
-            .datum(data)
-            .attr('d', line);
+            .y(function(d) { return y(d.y) }) */
+       
+	g.selectAll("line")
+		.data(data)
+		.enter().append("line");
+	
+       g.selectAll("line")
+	.attr("x1",  d => x(d.x1))
+	.attr("x2", d => x(d.x2))
+	.attr("y1",  d => y(d.y1))
+	.attr("y2", d => y(d.y2))
+	.attr("stroke", color)
+	.on("mouseover", function(d) {
+		console.log(d);
+});
+ 
     }
 
 
