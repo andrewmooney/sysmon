@@ -46,10 +46,13 @@ app.get('/:client', (req, res) => {
 });
 
 app.get('/api/:client', (req, res) => {
-	Perf.find({'name': req.params.client}, (err, perfData) => {
+	const date = new Date();
+	const days = 10;
+	const htime = + new Date(date.getTime() - (9 * 60 * 60 * 25 * 1000));
+	Perf.find({ $and: [ {'name': req.params.client}, { timestamp: { $gte: htime} }] }, (err, perfData) => {
 		if (err) return res.send({'message' : err});
 		return res.json(perfData);
-	}).limit(200);
+	});
 }) ;
 
 // app.post('/api', (req, res) => {
