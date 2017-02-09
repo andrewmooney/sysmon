@@ -85,12 +85,8 @@
             .text(function(d) { return d.id});
     });
 
-    function type(d, _, columns) {
+    function type(d) {
         d.date = parseTime(d.date);
-        for (var i = 1, n = columns.length, c; i < n; ++1) {
-            d[c = columns[i]] = +d[c];
-        }
-
         return d;
     }
 
