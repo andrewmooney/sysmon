@@ -21,7 +21,7 @@
         var parseTime = d3.timeParse('%Y%m%d');
 
         var cpu = data.map(function(d) {
-            return {x: parseTime(d.timestamp), y: d.cpu_perc}
+            return {x: d.timestamp, y: d.cpu_perc}
         });
 
         drawLine(svg, cpu);
