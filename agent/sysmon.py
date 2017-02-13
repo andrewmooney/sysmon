@@ -7,6 +7,20 @@ from socketIO_client import SocketIO, LoggingNamespace
 
 
 hostname = socket.gethostname()
+
+# Get all processes
+def getProc():
+    pids = psutil.pids()
+    processes = {}
+    for pid in pids:
+        p = psutil.Process(pid)
+        pname = p.name()
+        pstatus = p.status()
+        puser = p.username()
+        processes[pid] = {'pname': pname, 'pstatus': pstatus, 'puser': puser}
+
+    return processes;
+
 def getPerf():
     # Get current time
     localTime = time.time() * 1000
@@ -20,12 +34,18 @@ def getPerf():
     # Swap Memory outputs as: total, used, free, percent, sin, sout
     sMem = psutil.swap_memory()
 
+    # Disk usage
+    diskUt = psutil.disk_usage('/')
     # Disk io information outputs as: read_count, write_count, read_bytes, write_bytes, read_time, write_time
     diskIo = psutil.disk_io_counters()
 
-    return {'timestamp':localTime, 'cpu_perc':cpuPercent, 'vmem_perc':vMem.percent, 'smem_perc':sMem.percent}
+    return {'timestamp':localTime, 'cpu_perc':cpuPercent, 'vmem_perc':vMem.percent, 'smem_perc':sMem.percent, 'disk_use':diskUt.percent}
 
 with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
+
+    def emitProc():
+        print('Process request recieved')
+        socketIO.emit(getProc)
 
     while (True):
         perf = getPerf()
@@ -37,3 +57,4 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
             file.close()
         socketIO.emit('clientpd', data)
         socketIO.wait(seconds=1)
+        socketIO.on('prReq', emitProc)

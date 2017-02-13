@@ -80,6 +80,9 @@ app.post('/api/register', (req, res) => {
 });
 
 io.on('connection', (socket) => {
+	if((Math.random() * 10) + 1 === 5) {
+		io.emit('prReq')
+	}
 	console.log("Client connected");
 	socket.on('clientpd', (pd) => {
 		// console.log(pd);
