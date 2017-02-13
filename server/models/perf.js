@@ -7,7 +7,8 @@ const perfSchema = new Schema({
 	timestamp: Number,
 	cpu_perc: Number,
 	vmem_perc: Number,
-	smem_perc: Number
+	smem_perc: Number,
+	disk_use: Number
 }); 
 
 const perf = mongoose.model('PerfData', perfSchema);

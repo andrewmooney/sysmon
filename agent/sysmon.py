@@ -10,14 +10,18 @@ hostname = socket.gethostname()
 
 # Get all processes
 def getProc():
+    localTime = time.time() * 1000
     pids = psutil.pids()
     processes = {}
+    processes['hostname'] = hostname
+    processes['timestamp'] = localTime
+    processes['procs'] = {}
     for pid in pids:
         p = psutil.Process(pid)
         pname = p.name()
         pstatus = p.status()
         puser = p.username()
-        processes[pid] = {'pname': pname, 'pstatus': pstatus, 'puser': puser}
+        processes['procs'][pid] = {'pid': pid, 'pname': pname, 'pstatus': pstatus, 'puser': puser}
 
     return processes;
 

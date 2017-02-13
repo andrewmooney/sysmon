@@ -4,6 +4,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 const Perf = require('./models/perf');
+const Procs = require('./models/proc');
 const Client = require('./models/client');
 const bodyParser = require('body-parser');
 const exhbs = require('express-handlebars');
@@ -84,16 +85,23 @@ io.on('connection', (socket) => {
 	socket.on('clientpd', (pd) => {
 		// console.log(pd);
 		io.emit('clientdata', pd);
-		perfdata = new Perf(JSON.parse(pd));
+		let perfdata = new Perf(JSON.parse(pd));
 		perfdata.name = perfdata.hostname.split('.')[0];
 		perfdata.save( (err) => {
 			if (err) {
 				console.log(err);
-			}
-		})
+			};
+		});
 	});
 	socket.on('clientpr', (pr) => {
 		console.log('Client processes', pr)
+		let procdata = new Proc(JSON.parse(pr));
+		procdata.name = procdata.hostname.split('.')[0];
+		procdata.save( (err) => {
+			if (err) {
+				console.log(err)
+			};
+		});
 	});
 });
 
