@@ -66,4 +66,4 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
         socketIO.wait(seconds=1)
         
         if (loopnum == 1 or loopnum % 150 == 0):
-            socketIO.emit('clientpr', getProc())
+            socketIO.emit('clientpr', json.dumps(getProc()))
