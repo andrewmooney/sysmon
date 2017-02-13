@@ -45,9 +45,9 @@ app.get('/:client', (req, res) => {
 	}).sort({timestamp: -1});
 });
 
-app.get('/api/:client', (req, res) => {
+app.get('/api/:client/:days?', (req, res) => {
 	const date = new Date();
-	const days = 1;
+	const days = req.params.days || 7;
 	const htime = + new Date(date.getTime() - (days * 60 * 60 * 25 * 1000));
 	Perf.find({ $and: [ {'name': req.params.client}, { timestamp: { $gte: htime} }] }, (err, perfData) => {
 		if (err) return res.send({'message' : err});

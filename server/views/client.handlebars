@@ -20,6 +20,7 @@
 
     // Getting data from api
     var client = window.location.href.split('/').pop();
+    
     d3.json('/api/' + client, function (error, data) {
         console.log(data);
         if (error) throw error;
@@ -33,7 +34,7 @@
         var color = d3.scaleOrdinal().range(d3.schemeCategory10);
 
         ['cpu_perc', 'vmem_perc', 'smem_perc'].forEach(function (item) {
-            var prev;
+            var prev = 0;
             drawLine(svg, color(item), data.map(function (x) {
                 var curr = {
                     x1: prev == undefined ? 0 : prev.timestamp,
