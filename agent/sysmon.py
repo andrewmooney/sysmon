@@ -46,17 +46,23 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
     def emitProc():
         print('Process request recieved')
         socketIO.emit(getProc)
+    
+    loopnum = 0
 
     while (True):
+        loopnum += 1
         now = datetime.datetime.now()
         perf = getPerf()
         perf['hostname'] = hostname;
         data = json.dumps(perf)
+
         if (perf['cpu_perc'] > 50 ) or (perf['vmem_perc'] > 90 ) or (perf['smem_perc'] > 10):
             file = open("./logs/plog.log", "a+")
             file.write(data)
             file.close()
+
         socketIO.emit('clientpd', data)
         socketIO.wait(seconds=1)
-        if (now.minute % 5 == 0):
+        
+        if (loopnum == 1 or loopnum % 150 == 0):
             socketIO.emit('clientpr', getProc())
