@@ -4,7 +4,7 @@ import socket
 import psutil
 import requests
 from socketIO_client import SocketIO, LoggingNamespace
-
+import datetime
 
 hostname = socket.gethostname()
 
@@ -48,6 +48,7 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
         socketIO.emit(getProc)
 
     while (True):
+        now = datetime.datetime.now()
         perf = getPerf()
         perf['hostname'] = hostname;
         data = json.dumps(perf)
@@ -57,4 +58,5 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
             file.close()
         socketIO.emit('clientpd', data)
         socketIO.wait(seconds=1)
-        socketIO.on('prReq', emitProc)
+        if (now.minute % 5 == 0):
+            socketIO.emit('clientpr', getProc())
