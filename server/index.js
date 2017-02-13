@@ -92,6 +92,9 @@ io.on('connection', (socket) => {
 			}
 		})
 	});
+	socket.on('clientpr', (pr) => {
+		console.log('Client processes', pr)
+	});
 });
 
 
