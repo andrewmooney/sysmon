@@ -1,6 +1,8 @@
 // {{!--'hostname': hostname, 'timestamp': localTime,'pid': pid, 'pname': pname, 'pstatus': pstatus, 'puser': puser--}}
 var socket = io();
-socket.join('help-tst');
+io.on('connection', function(socket){
+    socket.join('help-tst');
+});
 socket.on('clientproc', function(pd) {
     var tdata = "";
     var ptable = $('#procInfo');
