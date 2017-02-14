@@ -11,7 +11,10 @@ const exhbs = require('express-handlebars');
 
 const port = 80;
 
-app.engine('handlebars', exhbs({defaultLayout: 'main'}));
+// Setup
+const logProcesses = false;
+
+app.engine('handlebars', exhbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 mongoose.connect('mongodb://localhost/sysmon');
@@ -22,14 +25,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-	Client.find((err, clients) => {
-		if (err) {
-			console.log(err);
-			return 
-		}
+    Client.find((err, clients) => {
+        if (err) {
+            console.log(err);
+            return
+        }
 
-		res.render('index',{'client' : clients});
-	});
+        res.render('index', { 'client': clients });
+    });
 });
 
 // app.get('/api', (req, res) => {
@@ -40,21 +43,21 @@ app.get('/', (req, res) => {
 // });
 
 app.get('/:client', (req, res) => {
-	Perf.find({'name': req.params.client}, (err, perfData) => {
-		if (err) return res.send({'message' : err});
-		return res.render('client', {'perfData' : perfData});
-	}).sort({timestamp: -1});
+    Perf.find({ 'name': req.params.client }, (err, perfData) => {
+        if (err) return res.send({ 'message': err });
+        return res.render('client', { 'perfData': perfData });
+    }).sort({ timestamp: -1 });
 });
 
 app.get('/api/:client/:days?', (req, res) => {
-	const date = new Date();
-	const days = req.params.days || 7;
-	const htime = + new Date(date.getTime() - (days * 60 * 60 * 25 * 1000));
-	Perf.find({ $and: [ {'name': req.params.client}, { timestamp: { $gte: htime} }] }, (err, perfData) => {
-		if (err) return res.send({'message' : err});
-		return res.json(perfData);
-	});
-}) ;
+    const date = new Date();
+    const days = req.params.days || 7;
+    const htime = +new Date(date.getTime() - (days * 60 * 60 * 25 * 1000));
+    Perf.find({ $and: [{ 'name': req.params.client }, { timestamp: { $gte: htime } }] }, (err, perfData) => {
+        if (err) return res.send({ 'message': err });
+        return res.json(perfData);
+    });
+});
 
 // app.post('/api', (req, res) => {
 // 	perfdata = new Perf(req.body);
@@ -68,44 +71,47 @@ app.get('/api/:client/:days?', (req, res) => {
 // });
 
 app.post('/api/register', (req, res) => {
-	const body = req.body;
-	body.name = body.hostname.split('.')[0];
-	const client = new Client(body);
-	client.save( (err) => {
-		if (err) {
-			return res.status(500).send(err);
-		}
+    const body = req.body;
+    body.name = body.hostname.split('.')[0];
+    const client = new Client(body);
+    client.save((err) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
 
-		res.status(200).send("New client added");	
-	});
+        res.status(200).send("New client added");
+    });
 });
 
 io.on('connection', (socket) => {
-	console.log("Client connected");
-	socket.on('clientpd', (pd) => {
-		// console.log(pd);
-		io.emit('clientdata', pd);
-		let perfdata = new Perf(JSON.parse(pd));
-		perfdata.name = perfdata.hostname.split('.')[0];
-		perfdata.save( (err) => {
-			if (err) {
-				console.log(err);
-			};
-		});
-	});
-	socket.on('clientpr', (pr) => {
-		for (let i = 0; i < pr.length; i++) {
-			console.log(pr[i])	
-			let procdata = new Proc(JSON.parse(pr[i]));
-			procdata.name = procdata.hostname.split('.')[0];
-			console.log(procdata)
-			procdata.save( (err) => {
-				if (err) {
-					console.log(err)
-				};
-			});
-		}
-	});
+    console.log("Client connected");
+    socket.on('clientpd', (pd) => {
+        // console.log(pd);
+        io.emit('clientdata', pd);
+        let perfdata = new Perf(JSON.parse(pd));
+        perfdata.name = perfdata.hostname.split('.')[0];
+        perfdata.save((err) => {
+            if (err) {
+                console.log(err);
+            };
+        });
+    });
+    socket.on('clientpr', (pr) => {
+        if (logProcesses) {
+            for (let i = 0; i < pr.length; i++) {
+                console.log(pr[i])
+                let procdata = new Proc(JSON.parse(pr[i]));
+                procdata.name = procdata.hostname.split('.')[0];
+                console.log(procdata)
+                procdata.save((err) => {
+                    if (err) {
+                        console.log(err)
+                    };
+                });
+            }
+        }
+		io.emit('clientproc', pr);
+    });
 });
 
 
