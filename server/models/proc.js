@@ -5,12 +5,10 @@ const procSchema = new Schema({
 	hostname: String, 
 	name: String,
 	timestamp: Number,
-    procs: { 
         pid: Number, 
         pname: String, 
         pstatus: String, 
         puser: String
-    }
 }); 
 
 const proc = mongoose.model('ProcData', procSchema);

@@ -94,14 +94,17 @@ io.on('connection', (socket) => {
 		});
 	});
 	socket.on('clientpr', (pr) => {
-		console.log('Client processes', pr)
-		let procdata = new Proc(JSON.parse(pr));
-		procdata.name = procdata.hostname.split('.')[0];
-		procdata.save( (err) => {
-			if (err) {
-				console.log(err)
-			};
-		});
+		for (let i = 0; i < pr.length; i++) {
+			console.log(pr[i])	
+			let procdata = new Proc(JSON.parse(pr[i]));
+			procdata.name = procdata.hostname.split('.')[0];
+			console.log(procdata)
+			procdata.save( (err) => {
+				if (err) {
+					console.log(err)
+				};
+			});
+		}
 	});
 });
 
