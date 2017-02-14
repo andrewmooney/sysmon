@@ -1,11 +1,7 @@
-<style>
-    svg.lines {
-        stroke-width: 2px;
-    }
-</style>
 <h1 id="hostname"></h1>
+
 <svg width="960" height="500"></svg>
-{{!--'hostname': hostname, 'timestamp': localTime,'pid': pid, 'pname': pname, 'pstatus': pstatus, 'puser': puser--}}
+
 <div class="processes">
     <table class="bordered">
         <thead>
@@ -26,106 +22,5 @@
 
 <script type="text/javascript" src="./js/procDataSocket.js"></script>
 
-<script>
-    // Getting data from api
-    var client = window.location.href.split('/').pop();
-    
-    d3.json('/api/' + client, function (error, data) {
-        console.log(data);
-        if (error) throw error;
+<script src="./js/d3charts.js"></script>
 
-        var svg = d3.select('svg');
-        var parseTime = d3.timeParse('%Y%m%d');
-
-        var cpu = data.map(function (d) {
-            return { x: new Date(d.timestamp), y: d.cpu_perc }
-        });
-        var color = d3.scaleOrdinal().range(d3.schemeCategory10);
-
-        ['cpu_perc', 'vmem_perc', 'smem_perc'].forEach(function (item) {
-            var prev = 0;
-            drawLine(svg, color(item), data.map(function (x) {
-                var curr = {
-                    x1: prev == undefined ? 0 : prev.timestamp,
-                    x2: x.timestamp,
-                    y1: prev == undefined ? 0 : prev[item],
-                    y2: x[item],
-                    original: x
-                }
-                prev = x;
-                return curr;
-            }));
-        });
-    });
-
-    function drawLine(svg, color, data) {
-        var margin = { top: 20, right: 80, bottom: 30, left: 50 },
-            width = svg.attr('width') - margin.left - margin.right,
-            height = svg.attr('height') - margin.top - margin.bottom,
-            g = svg.append('g').classed("lines", true).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-        var timestamps = data.map(function (x) { return x.x2 });
-        var x = d3.scaleLinear()
-            .domain([d3.min(timestamps), d3.max(timestamps)])
-            .rangeRound([0, width]);
-
-        var y = d3.scaleLinear()
-            .domain([0, 100])
-            .rangeRound([height, 0]);
-
-        /*var line = d3.line()
-            .x(function(d) { return x(d.x) })
-            .y(function(d) { return y(d.y) }) */
-
-        g.selectAll("line")
-            .data(data)
-            .enter().append("line");
-
-        g.selectAll("line")
-            .attr("x1", d => x(d.x1))
-            .attr("x2", d => x(d.x2))
-            .attr("y1", d => y(d.y1))
-            .attr("y2", d => y(d.y2))
-            .attr("stroke", color)
-            .on("mouseover", function (d) {
-                console.log(d);
-            });
-
-        g.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .append("text")
-            .text("Time")
-            .attr("fill", "#000")
-            .select(".domain")
-            .remove();
-
-        g.append("g")
-            .call(d3.axisLeft(y))
-            .append("text")
-            .attr("fill", "#000")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", "0.71em")
-            .attr("text-anchor", "end")
-            .text("Percent (%)");
-
-    }
-
-
-    function type(d) {
-        d.date = parseTime(d.date);
-        return d;
-    }
-
-
-
-    /*var labels = [], cpuData = [], vmemData = [], smemData = [];
-    results.forEach(function (perf) {
-        labels.push(new Date(perf.timestamp));
-        cpuData.push(parseFloat(perf.cpu_perc));
-        vmemData.push(parseFloat(perf.vmem_perc));
-        smemData.push(parseFloat(perf.smem_perc));
-    });*/
-
-</script>

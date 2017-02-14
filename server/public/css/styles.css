@@ -30,3 +30,16 @@
     width: 15000px;
     overflow-x: scroll;
 }
+
+.area {
+  fill: none;
+  /*stroke: orangered;*/
+  stroke-width: 2px;
+  clip-path: url(#clip);
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
