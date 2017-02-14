@@ -12,5 +12,5 @@ socket.on('clientproc', function(pd) {
         tdata += "<td>" + data.puser + "</td>";
         tdata += "</tr>";
     })
-    ptable.append( tdata ); 
+    ptable.html( tdata );
 });
