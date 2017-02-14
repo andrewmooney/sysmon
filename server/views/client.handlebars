@@ -3,8 +3,31 @@
         stroke-width: 2px;
     }
 </style>
+<h1 id="hostname"></h1>
 <svg width="960" height="500"></svg>
+{{!--'hostname': hostname, 'timestamp': localTime,'pid': pid, 'pname': pname, 'pstatus': pstatus, 'puser': puser--}}
+<div class="processes">
+    <table class="bordered">
+        <thead>
+          <tr>
+              <th data-field="pid">PID</th>
+              <th data-field="pname">Name</th>
+              <th data-field="pstatus">Status/th>
+              <th data-field="puser">User</th>
+          </tr>
+        </thead>
 
+        <tbody>
+          <tr id="procInfo">
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<script>
+     var ptable = $('#procInfo');
+     ptable.append("<td>One</td><td>Two</td><td>Three</td><td>Four</td>"); 
+</script>
 
 <script>
     // Getting data from api
