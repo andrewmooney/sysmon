@@ -97,7 +97,7 @@ d3.json("/api/help-tst", function(error, data) {
         .datum(plotData)
         .attr("class", "area")
         .attr("d", area2)
-        .attr("stroke", plotData.map(function(d) { return d.color })[0]);
+        .attr("stroke", color(toGet));
 
     context.append("g")
         .attr("class", "axis axis--x")

@@ -53,7 +53,6 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
     loopnum = 0
 
     while (True):
-        loopnum += 1
         now = datetime.datetime.now()
         perf = getPerf()
         perf['hostname'] = hostname;
@@ -67,6 +66,8 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
         socketIO.emit('clientpd', data)
         socketIO.wait(seconds=1)
         
-        if (loopnum == 30):
+        if (loopnum == 0 or loopnum == 30):
             socketIO.emit('clientpr', getProc())
-            loopnum = 0
+            loopnum = 1
+
+        loopnum += 1
