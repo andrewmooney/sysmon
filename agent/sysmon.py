@@ -18,7 +18,9 @@ def getProc():
         pname = p.name()
         pstatus = p.status()
         puser = p.username()
-        processes.append(json.dumps({'hostname': hostname, 'timestamp': localTime,'pid': pid, 'pname': pname, 'pstatus': pstatus, 'puser': puser}))
+        pcpu_perc = p.cpu_percent()
+        pmem_perc = p.memory_percent()
+        processes.append(json.dumps({'hostname': hostname, 'timestamp': localTime,'pid': pid, 'pname': pname, 'pstatus': pstatus, 'puser': puser, 'pcpu_perc': pcpu_perc, 'pmem_perc': pmem_perc}))
 
     return processes;
 
@@ -65,6 +67,6 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
         socketIO.emit('clientpd', data)
         socketIO.wait(seconds=1)
         
-        if (loopnum == 75):
+        if (loopnum == 30):
             socketIO.emit('clientpr', getProc())
             loopnum = 0
