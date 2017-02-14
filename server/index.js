@@ -110,7 +110,7 @@ io.on('connection', (socket) => {
                 });
             }
         }
-		io.emit('clientproc', pr);
+		io.to('help-tst').emit('clientproc', pr);
     });
 });
 

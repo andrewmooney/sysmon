@@ -66,7 +66,7 @@ with SocketIO('elipsemon.uqcloud.net', 80, LoggingNamespace) as socketIO:
         socketIO.emit('clientpd', data)
         socketIO.wait(seconds=1)
         
-        if (loopnum == 0 or loopnum == 30):
+        if (loopnum == 0 or loopnum == 5):
             socketIO.emit('clientpr', getProc())
             loopnum = 1
 
