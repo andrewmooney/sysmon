@@ -96,13 +96,18 @@ io.on('connection', (socket) => {
             };
         });
     });
+    
+    socket.on('room', (room) => {
+	socket.join(room);
+    });
+
     socket.on('clientpr', (pr) => {
+	const room = JSON.parse(pr[0]).hostname.split('.')[0];
         if (logProcesses) {
             for (let i = 0; i < pr.length; i++) {
                 console.log(pr[i])
                 let procdata = new Proc(JSON.parse(pr[i]));
                 procdata.name = procdata.hostname.split('.')[0];
-                console.log(procdata)
                 procdata.save((err) => {
                     if (err) {
                         console.log(err)
@@ -110,7 +115,7 @@ io.on('connection', (socket) => {
                 });
             }
         }
-		io.to('help-tst').emit('clientproc', pr);
+	io.to(room).emit('clientproc', pr);
     });
 });
 

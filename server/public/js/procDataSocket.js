@@ -1,8 +1,13 @@
-// {{!--'hostname': hostname, 'timestamp': localTime,'pid': pid, 'pname': pname, 'pstatus': pstatus, 'puser': puser--}}
-var socket = io();
-io.on('connection', function(socket){
-    socket.join('help-tst');
+var socket = io.connect();
+var path = window.location.pathname.split('/');
+var room = path[1];
+
+hostname.innerText = room;
+
+socket.on('connect', function(){
+    socket.emit('room', room);
 });
+
 socket.on('clientproc', function(pd) {
     var tdata = "";
     var ptable = $('#procInfo');
