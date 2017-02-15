@@ -43,3 +43,11 @@
   fill: none;
   pointer-events: all;
 }
+
+.graph {
+
+}
+
+.processes {
+    margin-top: 30px;
+}

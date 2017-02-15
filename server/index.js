@@ -97,8 +97,9 @@ io.on('connection', (socket) => {
         });
     });
     
+    // Add client to requested room
     socket.on('room', (room) => {
-	socket.join(room);
+	    socket.join(room);
     });
 
     socket.on('clientpr', (pr) => {
@@ -115,6 +116,7 @@ io.on('connection', (socket) => {
                 });
             }
         }
+    // emit only to the room associated with this client
 	io.to(room).emit('clientproc', pr);
     });
 });
